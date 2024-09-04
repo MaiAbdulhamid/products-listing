@@ -75,31 +75,6 @@ The app will be available at http://localhost:3000.
 #### Delete Product:
 - Click the delete icon next to any product to remove it from the list.
 
-## Project Structure
-```plaintext
-  Copy code
-  ├── components
-  │   ├── Button.tsx          # Reusable button component
-  │   ├── Footer.tsx          # Footer component
-  │   ├── Navbar.tsx          # Navbar component
-  │   └── Pagination.tsx      # Pagination component
-  ├── pages
-  │   ├── _app.tsx            # Custom App component
-  │   ├── index.tsx           # Product listing page
-  │   ├── add-product.tsx     # Add product page
-  │   └── edit-product
-  │       └── [id].tsx        # Edit product page
-  ├── public                  # Public assets (e.g., images, icons)
-  ├── services
-  │   └── productService.ts   # API logic for fetching, adding, updating, and deleting products
-  ├── store
-  │   ├── index.ts            # Redux store setup
-  │   └── productSlice.ts     # Redux slice for managing product state
-  └── styles
-      └── globals.css         # Global styles
-
-```
-
 ## To Do:
 - Integrate a real backend service for persistent data storage.
 - Improve form validation and error handling.
