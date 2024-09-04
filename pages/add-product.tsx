@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import styles from "@/styles/AddProduct.module.css";
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import { AppDispatch } from '@/store';
+import { addProductAsync } from '@/store/productSlice';
 
 const AddProduct = () => {
   const [product, setProduct] = useState({
@@ -10,6 +14,9 @@ const AddProduct = () => {
     description: '',
   });
 
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
@@ -18,25 +25,17 @@ const AddProduct = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const response = await fetch('https://fakestoreapi.com/products', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(product),
-    });
+    // Dispatch the add product action
+    await dispatch(addProductAsync({
+      title: product.title,
+      price: Number(product.price),
+      image: product.image,
+      category: product.category,
+      description: product.description,
+    }));
 
-    const data = await response.json();
-    console.log('Product added:', data);
-
-    // Clear form after submission
-    setProduct({
-      title: '',
-      price: '',
-      image: '',
-      category: '',
-      description: '',
-    });
+    // Redirect to the product listing page after adding the product
+    router.push('/');
   };
 
   return (

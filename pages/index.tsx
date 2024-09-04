@@ -4,28 +4,33 @@ import { useRouter } from "next/router";
 import ProductCard from "@/components/ProductCard";
 import Pagination from "@/components/Pagination";
 import styles from "@/styles/ProductList.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "../store";
+import { fetchProductsAsync, deleteProductAsync } from "../store/productSlice";
 
 const ITEMS_PER_PAGE = 8;
-type ProductListTypes = { products: Array<ProductType> };
 
-export default function ProductList({ products }: ProductListTypes) {
+export default function ProductList() {
   const router = useRouter();
   const { query } = router;
+  const dispatch = useDispatch<AppDispatch>();
 
   // Extract search and page query params
   const searchTerm = (query.search as string) || "";
   const currentPage = parseInt((query.page as string) || "1", 10);
 
-  // State for filtered products
-  const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
+  const { products, loading } = useSelector(
+    (state: RootState) => state.products
+  );
 
-  // Filter and search products when search term or page changes
   useEffect(() => {
-    const filtered = products.filter((product) =>
-      product.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredProducts(filtered);
-  }, [searchTerm, products]);
+    dispatch(fetchProductsAsync());
+  }, [dispatch]);
+
+  // Filter and paginate products
+  const filteredProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // Pagination logic
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -59,25 +64,32 @@ export default function ProductList({ products }: ProductListTypes) {
         onChange={handleSearchChange}
         className={styles["search-bar"]}
       />
-      <div className={styles["product-list"]}>
-        {paginatedProducts.map((product: ProductType) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className={styles["product-list"]}>
+          {paginatedProducts.map((product: ProductType) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      )}
       {/* Pagination controls */}
-      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
-
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }
 
-export async function getStaticProps() {
-  const res = await fetch("https://fakestoreapi.com/products");
-  const products = await res.json();
+// export async function getStaticProps() {
+//   const res = await fetch("https://fakestoreapi.com/products");
+//   const products = await res.json();
 
-  return {
-    props: {
-      products,
-    },
-  };
-}
+//   return {
+//     props: {
+//       products,
+//     },
+//   };
+// }

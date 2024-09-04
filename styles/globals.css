@@ -54,3 +54,27 @@ body {
   padding: 15px;
   margin-top: 20px;
 }
+
+.button {
+  padding: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.button-icon {
+  font-size: 1.2rem;
+}
+
+.button:hover {
+  color: #0070f3;
+}
+
+.delete-button {
+  color: red;
+}
+
+.edit-button {
+  color: green;
+}

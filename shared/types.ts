@@ -3,9 +3,9 @@ type RatingType = { rate: number; count: number };
 export type ProductType = {
   category: string;
   description: string;
-  id: string | number;
+  id: number;
   image: string;
   price: number;
-  rating: RatingType;
+  rating?: RatingType;
   title: string;
 };
