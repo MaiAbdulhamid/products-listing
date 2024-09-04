@@ -47,7 +47,7 @@ Follow these instructions to set up and run the application locally.
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/your-username/product-listing-app.git
+   git clone [https://github.com/MaiAbdulhamid/products-listing.git](https://github.com/MaiAbdulhamid/products-listing.git)
    cd product-listing-app
 
 2. **Clone the Repository:**
