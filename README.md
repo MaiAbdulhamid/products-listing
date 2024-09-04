@@ -98,6 +98,8 @@ The app will be available at http://localhost:3000.
   └── styles
       └── globals.css         # Global styles
 
+
+
 ## To Do:
 - Integrate a real backend service for persistent data storage.
 - Improve form validation and error handling.
